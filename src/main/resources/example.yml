@@ -1,0 +1,71 @@
+#用于命令获取的名字
+Name: 'example'
+#变量设定
+Variable:
+    变量名: 1.0
+    #可以使用papi变量 papi变量应该使用%%包裹起来
+    #注意 这里只能使用纯数字的papi变量 如果是字符型的请直接写到下面物品设定中
+    #支持表达式
+    $var0: '%test_test% + $变量名$'
+    #如果设定为详细设定
+    var1:
+        #表达式
+        expression: '%test_test% + 2'
+        #数字格式
+        numberFormat: '#'
+    #或者更复杂的函数
+    var2:
+        #js函数内部
+        #自带变量player
+        #papi get函数返回的是对应的变量数值
+        #context get函数返回其他上下文变量
+        function: |
+            if(player.hasPermission('vip')){
+                return 99999.0
+            }
+            var var1 = context.get('var1');
+            var name = player.getName();
+            var level = player.getLevel();
+            var v = papi.get('%test_test%');
+            return v + level;
+        #数字格式
+        numberFormat: '#.#'
+    #或者权重模式
+    var3:
+        - weight: 10
+          value: '%test_test% + 2'
+        - weight: 20
+          expression: '%test_test% + 2'
+          numberFormat: '#.##%'
+        
+        - weight: 30
+          function: |
+                var name = player.getName();
+                var level = player.getLevel();
+                var v = papi.get('%test_test%');
+                return v + level;
+#物品设定
+Item:
+    type: 'minecraft:diamond_sword'
+    durability: 0
+    #无限耐久
+    inftyDurability: false
+    #物品名字
+    #注意!!
+    #在name 和 lore里
+    #如果你想写一个单独的$或者%
+    #请使用$$ 和 %% 替代
+    name: '&6test'
+    lore:
+        - '&a范例配置'
+        - '&b变量引用: $变量名$'
+        - '&aPAPI字符型变量: %player_name%'
+    flags:
+        - HIDE_ATTRIBUTES
+        - HIDE_DESTROYS
+        - HIDE_ENCHANTS
+        - HIDE_PLACED_ON
+        - HIDE_POTION_EFFECTS
+        - HIDE_UNBREAKABLE
+    enchs:
+        - 'PROTECTION_ENVIRONMENTAL:0'

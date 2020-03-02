@@ -1,0 +1,13 @@
+name: CatItem
+version: ${project.version}
+main: com.github.bryanser.catitem.Main
+depend:
+    - PlaceholderAPI
+authors: [Bryan_lzh]
+
+commands:
+    CatItem:
+        aliases: [ci]
+        usage: |
+            §6/<command> give [玩家] [物品] (数量) >> 给予玩家物品
+            §6/<command> reload [debug] >>  重载插件

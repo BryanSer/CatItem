@@ -1,0 +1,44 @@
+#变全局量设定
+GlobalVariable:
+    变量名: 1.0
+    #可以使用papi变量 papi变量应该使用%%包裹起来
+    #注意 这里只能使用纯数字的papi变量 如果是字符型的请直接写到下面物品设定中
+    #支持表达式
+    var0: '%test_test% + $变量名$'
+    #如果设定为详细设定
+    var1:
+        #表达式
+        expression: '%test_test% + 2'
+        #数字格式
+        numberFormat: '#'
+    #或者更复杂的函数
+    var2:
+        #js函数内部
+        #自带变量player
+        #papi get函数返回的是对应的变量数值
+        #context get函数返回其他上下文变量
+        function: |
+            if(player.hasPermission('vip')){
+                return 99999.0
+            }
+            var var1 = context.get('var1');
+            var name = player.getName();
+            var level = player.getLevel();
+            var v = papi.get('%test_test%');
+            return v + level;
+        #数字格式
+        numberFormat: '#.#'
+    #或者权重模式
+    var3:
+        - weight: 10
+          value: '%test_test% + 2'
+        - weight: 20
+          expression: '%test_test% + 2'
+          numberFormat: '#.##%'
+        
+        - weight: 30
+          function: |
+                var name = player.getName();
+                var level = player.getLevel();
+                var v = papi.get('%test_test%');
+                return v + level;
